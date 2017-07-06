@@ -17,10 +17,11 @@ Usage
 	"text":"[Text need to check]"
 }
 ```
-- Remember to add **Authorization** in the request header with **username:password** (must be encoded by **Base64**) that match with server
+- Remember to add **Authorization** field in the request header with **username:password** (must be encoded by **Base64**) that matches with server
 
-Usage
+Note
 -------------
+Path to below directories */src/main/webapp/conf/*<br>
 - **auth_string.txt** file contains authentication string
 - **data_tempate.txt** file contains JSON template to send to elastic search server
 
