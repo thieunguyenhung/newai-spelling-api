@@ -1,0 +1,18 @@
+{
+  "suggest": {
+    "text": "{{param}}",
+    "simple_phrase": {
+      "phrase": {
+        "field": "content.trigram",
+        "max_errors":3,
+        "size": 1,
+        "gram_size": 3,
+        "direct_generator": [ {
+          "field": "content.trigram",
+          "min_word_length":2,
+          "suggest_mode": "always"
+        } ]
+      }
+    }
+  }
+}
