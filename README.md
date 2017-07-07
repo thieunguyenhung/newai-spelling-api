@@ -33,3 +33,6 @@ License
 -------------
 - [Apache license 2.0](https://www.apache.org/licenses/LICENSE-2.0)
 - [elastic Open Source license](https://www.elastic.co/subscriptions)
+
+
+### © 2017 NewAI Team
