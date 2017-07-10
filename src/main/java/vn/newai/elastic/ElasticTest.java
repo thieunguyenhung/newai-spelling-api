@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 public class ElasticTest {
 	private String dataTemplatePath;
+	private String elasticServerURL;
 
 	/*-public static void main(String[] args) throws ClientProtocolException, IOException {
 		String s = FileUtils.readFileToString(new File("/Users/hungthieu/Documents/eclipseWS/spelling/src/main/webapp/test.txt"), "UTF-8");
@@ -28,8 +29,18 @@ public class ElasticTest {
 		test.getSpellingCorrection(s);
 	}*/
 
-	public ElasticTest(String dataTemplatePath) {
+	public ElasticTest(String dataTemplatePath, String elasticServerURLPath) {
 		this.dataTemplatePath = dataTemplatePath;
+		this.elasticServerURL = "";
+		this.readElasticURL(elasticServerURLPath);
+	}
+
+	private void readElasticURL(String elasticServerURLPath) {
+		try {
+			this.elasticServerURL = FileUtils.readFileToString(new File(elasticServerURLPath), "UTF-8");
+		} catch (IOException e) {
+			System.out.println("[Error]: Cannot read elasticsearch_url.txt");
+		}
 	}
 
 	public String getSpellingCorrection(String pagraph) throws ClientProtocolException, IOException {
@@ -140,7 +151,7 @@ public class ElasticTest {
 	private String checkGramSpelling(String text) throws ClientProtocolException, IOException {
 		// String encoding =
 		// Base64.getEncoder().encodeToString(("elastic:changeme").getBytes());
-		HttpPost httppost = new HttpPost("http://130.211.253.233:9200/doc/vbpl/_search");
+		HttpPost httppost = new HttpPost(this.elasticServerURL);
 		// httppost.setHeader("Authorization", "Basic " + encoding);
 
 		StringEntity params = new StringEntity(readFile(text), Consts.UTF_8);

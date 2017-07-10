@@ -23,6 +23,8 @@ import vn.newai.elastic.ElasticTest;
 public class SpellingCheckService {
 	/** Data template to send to Elastic server */
 	private static final String DATA_TEMPLATE_PATH = SpellingCheckService.class.getResource("../../../../../").getPath() + "conf/data_template.txt";
+	/** Elastic search server URL */
+	private static final String ELASTIC_SERVER_URL_PATH = SpellingCheckService.class.getResource("../../../../../").getPath() + "conf/elasticsearch_url.txt";
 
 	/** Authentication string */
 	private static final String AUTH_STRING_PATH = SpellingCheckService.class.getResource("../../../../../").getPath() + "conf/auth_string.txt";
@@ -63,7 +65,7 @@ public class SpellingCheckService {
 			/*-Get correction*/
 			try {
 				String inputText = inputJSON.getString("text");
-				ElasticTest elasticTest = new ElasticTest(DATA_TEMPLATE_PATH);
+				ElasticTest elasticTest = new ElasticTest(DATA_TEMPLATE_PATH, ELASTIC_SERVER_URL_PATH);
 				return ResponseBuilder.buildSuccessResponse("OK", 200, inputText, elasticTest.getSpellingCorrection(inputText));
 			} catch (IOException e) {
 				System.out.println("[Error]: Cannot read data_template.txt");
@@ -81,7 +83,7 @@ public class SpellingCheckService {
 		if (authString.split("\\s+").length >= 1) {
 			try {
 				String userPass = authString.split("\\s+")[1];
-				//userPass = new String(Base64.getDecoder().decode(userPass));
+				// userPass = new String(Base64.getDecoder().decode(userPass));
 				if (userPass.equals(FileUtils.readFileToString(new File(AUTH_STRING_PATH), "UTF-8")))
 					return true;
 			} catch (IOException e) {
