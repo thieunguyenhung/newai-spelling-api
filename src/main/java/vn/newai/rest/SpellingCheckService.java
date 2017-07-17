@@ -17,7 +17,7 @@ import org.apache.commons.io.FileUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import vn.newai.elastic.ElasticTest;
+import vn.newai.elastic.SpellingChecker;
 
 @Path("/checker")
 public class SpellingCheckService {
@@ -65,11 +65,8 @@ public class SpellingCheckService {
 			/*-Get correction*/
 			try {
 				String inputText = inputJSON.getString("text");
-				ElasticTest elasticTest = new ElasticTest(DATA_TEMPLATE_PATH, ELASTIC_SERVER_URL_PATH);
-				return ResponseBuilder.buildSuccessResponse("OK", 200, inputText, elasticTest.getSpellingCorrection(inputText));
-			} catch (IOException e) {
-				System.out.println("[Error]: Cannot read data_template.txt");
-				return ResponseBuilder.buildErrorResponse("Internal Server Error", 500, "Cannot read data_template.txt", e);
+				/*-ElasticTest elasticTest = new ElasticTest(DATA_TEMPLATE_PATH, ELASTIC_SERVER_URL_PATH);*/
+				return ResponseBuilder.buildSuccessResponse("OK", 200, inputText, SpellingChecker.checkSpelling(inputText, DATA_TEMPLATE_PATH, ELASTIC_SERVER_URL_PATH));
 			} catch (JSONException e) {
 				System.out.println("[Error]: Invalid JSON property name");
 				return ResponseBuilder.buildErrorResponse("Bad Request", 400, "Invalid JSON property name", e);

@@ -1,1 +1,1 @@
-http://130.211.253.233:9200/doc/vbpl/_search
+http://35.189.181.83:9200/doc/vbpl/_search
