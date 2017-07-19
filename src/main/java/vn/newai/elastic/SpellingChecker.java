@@ -1,6 +1,10 @@
 package vn.newai.elastic;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import org.apache.commons.io.FileUtils;
 
 import vn.newai.model.Word;
 import vn.newai.preprocessing.Preprocessing;
@@ -83,21 +87,19 @@ public class SpellingChecker {
 						continue;
 					else if (!listWords.get(i2).getText().matches("[.,:\\)\\]}>]+"))
 						result += " ";
-					else if (listWords.get(i2).getType() == Word.EMPTY_LINE)
-						result += "\n";
 				}
 			}
 		}
 		return result;
 	}
 
-	/*-public static void main(String[] args) {
+	public static void main(String[] args) {
 		try {
 			String s = FileUtils.readFileToString(new File("/home/anonym/Documents/eclipseWS/newai-spelling-api/test.txt"), "UTF-8");
-			String result = SpellingChecker.checkSpelling(s);
+			String result = SpellingChecker.checkSpelling(s, "/home/anonym/Documents/eclipseWS/newai-spelling-api/src/main/webapp/conf/data_template.txt", "/home/anonym/Documents/eclipseWS/newai-spelling-api/src/main/webapp/conf/elasticsearch_url.txt");
 			System.out.println(result);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}*/
+	}
 }
