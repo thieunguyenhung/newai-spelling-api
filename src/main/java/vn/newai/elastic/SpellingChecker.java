@@ -66,7 +66,7 @@ public class SpellingChecker {
 		boolean quoteOpening = false;
 		for (int i = 0; i < listWords.size(); i++) {
 			result += listWords.get(i).getText();
-			if (listWords.get(i).getText().matches("[\'\"]+")) {
+			if (listWords.get(i).getText().contains("\'") || listWords.get(i).getText().contains("\"")/*-matches("[\'\"]+")*/) {
 				if (!quoteOpening) {
 					quoteOpening = true;
 					continue;
@@ -79,9 +79,9 @@ public class SpellingChecker {
 			if (listWords.get(i).getType() != Word.EMPTY_LINE && !listWords.get(i).getText().matches("[\\(\\[{<?!]+")) {
 				int i2 = i + 1;
 				if (i2 < listWords.size()) {
-					if (listWords.get(i2).getText().matches("[\'\"]+") && quoteOpening)
+					if ((listWords.get(i2).getText().contains("\'") || listWords.get(i2).getText().contains("\"")/*-matches("[\'\"]+")*/) && quoteOpening)
 						continue;
-					else if (!listWords.get(i2).getText().matches("[.,:\\)\\]}>]+") && listWords.get(i2).getType() != Word.EMPTY_LINE)
+					else if (!listWords.get(i2).getText().matches("[.,;:\\)\\]}>]+") && listWords.get(i2).getType() != Word.EMPTY_LINE)
 						result += " ";
 				}
 			}
@@ -90,12 +90,8 @@ public class SpellingChecker {
 	}
 
 	/*-public static void main(String[] args) {
-		try {
 			String s = FileUtils.readFileToString(new File("/home/anonym/Documents/eclipseWS/newai-spelling-api/test.txt"), "UTF-8");
 			String result = SpellingChecker.checkSpelling(s, "/home/anonym/Documents/eclipseWS/newai-spelling-api/src/main/webapp/conf/data_template.txt", "/home/anonym/Documents/eclipseWS/newai-spelling-api/src/main/webapp/conf/elasticsearch_url.txt");
 			System.out.println(result);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}*/
 }

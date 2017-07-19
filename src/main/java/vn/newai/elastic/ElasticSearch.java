@@ -63,12 +63,12 @@ public class ElasticSearch {
 			JSONArray options = simple_phrase.getJSONArray("options");
 			if (options.toList().size() > 0) {
 				JSONObject correction = options.getJSONObject(0);
-				/*-System.out.println(correction.getString("text") + "\t" + String.format("%.8f", correction.getDouble("score")) + "\t" + simple_phrase.getString("text"));*/
+				System.out.println(correction.getString("text") + "\t" + String.format("%.8f", correction.getDouble("score")) + "\t" + simple_phrase.getString("text"));
 				return correction.getString("text");
 			}
-			/*-else{
+			else{
 				System.out.println(text);
-			}*/
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

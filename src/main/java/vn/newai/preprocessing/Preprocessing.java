@@ -29,14 +29,20 @@ public class Preprocessing {
 						if (matcher.find()) {
 							listWords.add(new Word(idCounter, matcher.group(1), Word.UN_CHECKABLE));
 							idCounter += 1;
-							listWords.add(new Word(idCounter, matcher.group(2), Word.CHECKABLE));
+							if (matcher.group(2).matches(ACRONYM_REGEX))
+								listWords.add(new Word(idCounter, matcher.group(2), Word.UN_CHECKABLE));
+							else
+								listWords.add(new Word(idCounter, matcher.group(2), Word.CHECKABLE));
 						}
 					}
 					/*-text + special char*/
 					else if (word.matches(VN_TEXT_REGEX + SPECIAL_CHAR_REGEX)) {
 						Matcher matcher = Pattern.compile("(" + VN_TEXT_REGEX + ")(" + SPECIAL_CHAR_REGEX + ")").matcher(word);
 						if (matcher.find()) {
-							listWords.add(new Word(idCounter, matcher.group(1), Word.CHECKABLE));
+							if (matcher.group(1).matches(ACRONYM_REGEX))
+								listWords.add(new Word(idCounter, matcher.group(1), Word.UN_CHECKABLE));
+							else
+								listWords.add(new Word(idCounter, matcher.group(1), Word.CHECKABLE));
 							idCounter += 1;
 							listWords.add(new Word(idCounter, matcher.group(2), Word.UN_CHECKABLE));
 						}
@@ -47,7 +53,10 @@ public class Preprocessing {
 						if (matcher.find()) {
 							listWords.add(new Word(idCounter, matcher.group(1), Word.UN_CHECKABLE));
 							idCounter += 1;
-							listWords.add(new Word(idCounter, matcher.group(2), Word.CHECKABLE));
+							if (matcher.group(2).matches(ACRONYM_REGEX))
+								listWords.add(new Word(idCounter, matcher.group(2), Word.UN_CHECKABLE));
+							else
+								listWords.add(new Word(idCounter, matcher.group(2), Word.CHECKABLE));
 							idCounter += 1;
 							listWords.add(new Word(idCounter, matcher.group(3), Word.UN_CHECKABLE));
 						}
