@@ -17,6 +17,7 @@ public class Preprocessing {
 		int idCounter = 0;
 		String[] arrParagraph = doc.split("\n");
 		for (String paragraph : arrParagraph) {
+			boolean isEmptyLine = false;
 			if (!paragraph.isEmpty()) {
 				String[] arrWord = paragraph.split(" ");
 				for (String word : arrWord) {
@@ -73,7 +74,12 @@ public class Preprocessing {
 					idCounter += 1;
 				}
 			} else {
-				listWords.add(new Word(idCounter, "\n\n", Word.EMPTY_LINE));
+				listWords.add(new Word(idCounter, "\n", Word.EMPTY_LINE));
+				idCounter += 1;
+				isEmptyLine = true;
+			}
+			if (!isEmptyLine) {
+				listWords.add(new Word(idCounter, "\n", Word.EMPTY_LINE));
 				idCounter += 1;
 			}
 		}

@@ -1,10 +1,6 @@
 package vn.newai.elastic;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import org.apache.commons.io.FileUtils;
 
 import vn.newai.model.Word;
 import vn.newai.preprocessing.Preprocessing;
@@ -85,15 +81,15 @@ public class SpellingChecker {
 				if (i2 < listWords.size()) {
 					if (listWords.get(i2).getText().matches("[\'\"]+") && quoteOpening)
 						continue;
-					else if (!listWords.get(i2).getText().matches("[.,:\\)\\]}>]+"))
+					else if (!listWords.get(i2).getText().matches("[.,:\\)\\]}>]+") && listWords.get(i2).getType() != Word.EMPTY_LINE)
 						result += " ";
 				}
 			}
 		}
-		return result;
+		return result.trim();
 	}
 
-	public static void main(String[] args) {
+	/*-public static void main(String[] args) {
 		try {
 			String s = FileUtils.readFileToString(new File("/home/anonym/Documents/eclipseWS/newai-spelling-api/test.txt"), "UTF-8");
 			String result = SpellingChecker.checkSpelling(s, "/home/anonym/Documents/eclipseWS/newai-spelling-api/src/main/webapp/conf/data_template.txt", "/home/anonym/Documents/eclipseWS/newai-spelling-api/src/main/webapp/conf/elasticsearch_url.txt");
@@ -101,5 +97,5 @@ public class SpellingChecker {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 }
