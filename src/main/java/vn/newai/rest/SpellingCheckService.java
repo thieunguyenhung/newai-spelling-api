@@ -35,7 +35,7 @@ public class SpellingCheckService {
 	public Response spellingChecker(@HeaderParam("authorization") String authString, InputStream inputStream) {
 		/*-Check authentication*/
 		if (null == authString)
-			return ResponseBuilder.buildErrorResponse("Unauthorized", 401, "Authentication failed", null);
+			return ResponseBuilder.buildErrorResponse("Unauthorized", 401, "Authentication string is empty", null);
 		else if (!isAuthenticated(authString))
 			return ResponseBuilder.buildErrorResponse("Unauthorized", 401, "Authentication failed", null);
 
@@ -45,7 +45,7 @@ public class SpellingCheckService {
 			BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
 			String line = null;
 			while ((line = in.readLine()) != null) {
-				line = line.replace("\r", "").replace("\r", "").replace("\t", "");
+				line = line.replace("\r", "").replace("\n", "").replace("\t", "");
 				stringBuilder.append(line);
 			}
 		} catch (IOException e) {
@@ -58,8 +58,8 @@ public class SpellingCheckService {
 		try {
 			inputJSON = new JSONObject(stringBuilder.toString());
 		} catch (JSONException e) {
-			System.out.println("[Error]: Invalid JSON format");
-			return ResponseBuilder.buildErrorResponse("Bad Request", 400, "Invalid JSON format", e);
+			System.out.println("[Error]: Invalid JSON format in request body");
+			return ResponseBuilder.buildErrorResponse("Bad Request", 400, "Invalid JSON format in request body", e);
 		}
 
 		/*-Check if inputJSON is null*/
@@ -70,8 +70,8 @@ public class SpellingCheckService {
 				/*-ElasticTest elasticTest = new ElasticTest(DATA_TEMPLATE_PATH, ELASTIC_SERVER_URL_PATH);*/
 				return ResponseBuilder.buildSuccessResponse("OK", 200, inputText, SpellingChecker.checkSpelling(inputText, DATA_TEMPLATE_PATH, ELASTIC_SERVER_URL_PATH));
 			} catch (JSONException e) {
-				System.out.println("[Error]: Invalid JSON property name");
-				return ResponseBuilder.buildErrorResponse("Bad Request", 400, "Invalid JSON property name", e);
+				System.out.println("[Error]: Invalid JSON property name in request body");
+				return ResponseBuilder.buildErrorResponse("Bad Request", 400, "Invalid JSON property name in request body", e);
 			}
 		}
 
