@@ -1,8 +1,59 @@
 <html>
 <meta charset='UTF-8'>
 <title>NewAI Team - Spelling Checker Service</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.loadingoverlay/latest/loadingoverlay.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.loadingoverlay/latest/loadingoverlay_progress.min.js"></script>
 <body>
 	<h1>NewAI Team</h1>
 	<h2>Spelling Checker Service</h2>
+	
+	Authentication string <input id="txtAuth" size="25" type="password" placeholder="Leave empty for default value"/><input id="chkShowPass" type="checkbox" /> Show<br><br>
+	<textarea id="txtInput" rows="20" cols="100" placeholder="Input text here"></textarea><br><br>
+	<button id="btnSubmit">Submit</button>
+	
+    <script type="text/javascript">
+	    $(document).ready(function(){
+	    	$(document).on('change', 'input#chkShowPass', function() {
+	    	    if(this.checked)
+	    	    	$('#txtAuth').attr('type', 'text');
+	    	    else
+	    	    	$('#txtAuth').attr('type', 'password');
+	    	});
+	    	
+	        $(document).on('click', '#btnSubmit', function() {
+	        	$('textarea#txtInput').LoadingOverlay("show");
+	        	$('#btnSubmit').attr("disabled", true);
+	        	
+	        	var inputText = $('textarea#txtInput').val();
+	        	
+	        	var authString = $('input#txtAuth').val() || "admin:admin";
+	         	authString = window.btoa(authString);
+	        	
+	        	var url = window.location.href + 'rest/checker/';
+	        	var xhr = new XMLHttpRequest();
+	        	xhr.open("POST", url, true);
+	        	xhr.setRequestHeader("Content-type", "application/json");
+	        	xhr.setRequestHeader("Authorization", "Basic " + authString); 
+	        	xhr.onreadystatechange = function () {
+	        		if(xhr.readyState === 4) {
+	        			$('textarea#txtInput').LoadingOverlay("hide", true);
+	        			$('#btnSubmit').removeAttr("disabled");
+	        			
+		        		var jsonObj = JSON.parse(xhr.responseText);
+		        		console.log(jsonObj);
+		        	    if (xhr.status === 200) {
+		        	    	$('textarea#txtInput').val(jsonObj.correction);
+		        	    }
+		        	    else{
+		        	    	$('textarea#txtInput').val("Error occured\n" + JSON.stringify(jsonObj));
+		        	    }
+	        		}
+	        	};
+	        	var data = JSON.stringify({"text": inputText});
+	        	xhr.send(data);
+		    });
+	    });
+	</script>
 </body>
 </html>

@@ -34,7 +34,9 @@ public class SpellingCheckService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response spellingChecker(@HeaderParam("authorization") String authString, InputStream inputStream) {
 		/*-Check authentication*/
-		if (!isAuthenticated(authString))
+		if (null == authString)
+			return ResponseBuilder.buildErrorResponse("Unauthorized", 401, "Authentication failed", null);
+		else if (!isAuthenticated(authString))
 			return ResponseBuilder.buildErrorResponse("Unauthorized", 401, "Authentication failed", null);
 
 		/*-user authenticated*/
